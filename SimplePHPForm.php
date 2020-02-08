@@ -340,6 +340,40 @@ class SimplePHPForm
 	}
 
 	/**
+	* Display Validation Errors
+	* @return string JSON
+	*/
+	function DisplayJSONErrors()
+	{
+		$jsonArray = [];
+		if($this->state == self::STATE_FAIL) {
+			foreach($this->input_list as $input) {
+				if($input->state == self::STATE_FAIL) {
+			 		$jsonArray[$input->name] = $input->text_error;
+				}
+			}
+		}
+
+		return json_encode($jsonArray);
+	}
+
+	/**
+	* Display Validation Errors
+	* @param string name.
+	* @return SimplePHPFormInput 
+	*/
+	function Get($name)
+	{
+		foreach($this->input_list as $input) {
+			if($input->name == $name) {
+				return $input;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	* Validation test. Does the data exist?
 	* @param string Data.
 	* @return boolean True = Yes. False = No.
